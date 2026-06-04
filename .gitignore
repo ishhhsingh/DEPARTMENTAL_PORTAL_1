@@ -1,0 +1,17 @@
+# Java
+target/
+*.class
+*.jar
+
+# Node
+node_modules/
+build/
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Docker
+.DS_Store
