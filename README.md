@@ -63,25 +63,26 @@ sequenceDiagram
 ## 5. Screenshots
 
 ### 🔐 Login Page
-![Login Page](docs/login_page.png)
+<img width="1918" height="1001" alt="Screenshot 2026-06-30 182828" src="https://github.com/user-attachments/assets/f1cca9d0-e058-4bae-8add-1cfba3413626" />
 
 ### 🎓 Student Dashboard
-![Student Dashboard](docs/student_dashboard.png)
+<img width="1900" height="987" alt="Screenshot 2026-06-30 182918" src="https://github.com/user-attachments/assets/74506bc1-d4a8-47c9-9439-f68fbad8c484" />
 
 ### 📅 Weekly Timetable View
-![Weekly Timetable](docs/weekly_timetable.png)
+<img width="1897" height="985" alt="Screenshot 2026-06-30 182942" src="https://github.com/user-attachments/assets/9203d763-8ea4-4104-9a50-5f98909eb9fb" />
 
 ### 🛡️ Admin Dashboard
-![Admin Dashboard](docs/admin_dashboard.png)
+<img width="1896" height="990" alt="Screenshot 2026-06-30 183023" src="https://github.com/user-attachments/assets/fb42e33e-4e37-4200-ad5d-62047b60974f" />
 
 ### 📤 CSV Upload
-![CSV Upload](docs/csv_upload.png)
+<img width="1918" height="987" alt="Screenshot 2026-06-30 183052" src="https://github.com/user-attachments/assets/b687d399-3f37-4725-bcd3-bb9abf590d01" />
 
 ### 👨‍🏫 Faculty Management
-![Faculty Management](docs/faculty_management.png)
+<img width="1898" height="991" alt="Screenshot 2026-06-30 183114" src="https://github.com/user-attachments/assets/8cfb4b56-866e-4a4b-bad0-765fadadfa24" />
 
 ### 📋 Faculty Schedule-Change Requests
-![Faculty Requests](docs/faculty_requests.png)
+<img width="1918" height="990" alt="Screenshot 2026-06-30 183240" src="https://github.com/user-attachments/assets/d02fa568-9599-4485-a60e-8336440560f8" />
+
 
 ---
 
