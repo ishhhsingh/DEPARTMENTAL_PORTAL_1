@@ -1,18 +1,13 @@
 # 🎓 DPT_PORTAL (DEPARTMENTAL_TIMETABLE_PORTAL)
 
-Welcome to the **DPT_PORTAL (Departmental Timetable Portal)**, a comprehensive role-based web application for managing, viewing, and orchestrating departmental academic schedules at SMIT. 
+DPT Portal (Departmental Timetable Portal) is a full-stack academic scheduling platform designed to streamline the creation, distribution, and viewing of university timetables. It provides a secure, role-based ecosystem tailored for Administrators, Faculty, and Students to efficiently interact with scheduling data.
 
-## 📑 Table of Contents
-
-1. [DPT_PORTAL (DEPARTMENTAL_TIMETABLE_PORTAL)](#1-dpt_portal-departmental_timetable_portal)
-2. [Architecture Diagram](#2-architecture-diagram)
-3. [Workflow DIAGRAM](#3-workflow-diagram)
-4. [Features](#4-features)
-5. [Screenshots](#5-screenshots)
-6. [Tech Stack](#6-tech-stack)
-7. [Folder Structure](#7-folder-structure)
-8. [Future Improvements](#8-future-improvements)
-9. [How to Run](#9-how-to-run)
+Key Features:
+- Role-Based Access Control (RBAC): Distinct dashboards and capabilities for Students (viewing), Faculty (schedule management), and Admins (orchestration and uploads).
+- Automated Data Ingestion: Administrators can instantly populate databases by uploading CSV schedules.
+- Real-Time Updates: Schedule modifications are reflected across user dashboards instantly without requiring heavy page reloads.
+- Modern & Responsive UI: Built with React and vanilla CSS, featuring glassmorphism elements for a stunning, premium user experience on any device.
+- Containerized Architecture: Fully dockerized (Frontend, Backend, Database) for a seamless, one-click local deployment process using docker-compose.
 
 ---
 
