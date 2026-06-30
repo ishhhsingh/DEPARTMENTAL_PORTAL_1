@@ -1,123 +1,158 @@
-# 🎓 DPT Portal — SMIT Departmental Timetable Portal
+# 🎓 DPT_PORTAL (DEPARTMENTAL_TIMETABLE_PORTAL)
 
-## ⚡ Quick Start (Docker — Recommended)
+Welcome to the **DPT_PORTAL (Departmental Timetable Portal)**, a comprehensive role-based web application for managing, viewing, and orchestrating departmental academic schedules at SMIT. 
 
-### Prerequisites
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+## 📑 Table of Contents
 
-### Run the whole project
-```bash
-# 1. Clone / unzip the project
-cd dpt-portal
-
-# 2. Start everything (MySQL + Backend + Frontend)
-docker-compose up --build
-
-# First build takes ~3-5 minutes (downloads Java, Node, MySQL images)
-# On subsequent runs: docker-compose up  (much faster)
-```
-
-### 3. Open in browser
-```
-http://localhost
-```
-
-### Stop
-```bash
-docker-compose down          # stops containers (data preserved)
-docker-compose down -v       # stops + deletes database (fresh start)
-```
+1. [DPT_PORTAL (DEPARTMENTAL_TIMETABLE_PORTAL)](#1-dpt_portal-departmental_timetable_portal)
+2. [Architecture Diagram](#2-architecture-diagram)
+3. [Workflow DIAGRAM](#3-workflow-diagram)
+4. [Features](#4-features)
+5. [Screenshots](#5-screenshots)
+6. [Tech Stack](#6-tech-stack)
+7. [Folder Structure](#7-folder-structure)
+8. [Future Improvements](#8-future-improvements)
+9. [How to Run](#9-how-to-run)
 
 ---
 
-## 🔑 Default Credentials
+## 1. DPT_PORTAL (DEPARTMENTAL_TIMETABLE_PORTAL)
+DPT_PORTAL is designed for Students, Faculty, and Administrators to streamline the creation, distribution, and viewing of timetables. It provides an elegant interface for managing classrooms, faculty schedules, and student routines while ensuring data is securely handled via role-based access control.
 
-| Role    | Username    | Password   |
-|---------|-------------|------------|
-| Admin   | admin       | admin123   |
-| Faculty | CA-FAC001   | 12345      |
-| Faculty | CA-FAC002   | 12345      |
-| Student | 202300001   | 123        |
+## 2. Architecture Diagram
+```mermaid
+graph TD
+    Client[React Client] -->|HTTP REST| Proxy[Nginx / API Gateway]
+    Proxy -->|Proxied Requests| Backend[Spring Boot Backend]
+    Backend -->|JDBC / JPA| DB[(MySQL Database)]
+    Backend -->|JWT Auth| Auth[Spring Security]
+```
 
-> Students: use your Registration Number as username. Default password is `123`.
+## 3. Workflow DIAGRAM
+```mermaid
+sequenceDiagram
+    participant Admin
+    participant Frontend
+    participant Backend
+    participant DB as MySQL Database
+    participant Users as Faculty/Students
+
+    Admin->>Frontend: Uploads CSV / Creates Slots
+    Frontend->>Backend: POST /api/schedules
+    Backend->>Backend: Validate Data
+    Backend->>DB: Save to Database
+    Users->>Frontend: Logs in & requests view
+    Frontend->>Backend: GET /api/schedules
+    Backend->>DB: Fetch schedules
+    DB-->>Backend: Return data
+    Backend-->>Frontend: Return formatted JSON
+    Frontend-->>Users: Display elegant UI
+```
+
+## 4. Features
+
+* **Real-Time Streaming**
+  As administrators upload new schedules or modify existing ones, changes can be streamed and updated across dashboards without heavy page reloads.
+* **Review & Compare Modes**
+  Allows administrators and faculty to compare different schedules, check for overlaps (e.g. same room double-booked), and review faculty loads before finalizing.
+* **Stunning UI**
+  Built with modern design aesthetics, featuring responsive layouts, glassmorphism elements, and smooth interactions that look great on any device.
+* **Instant Report Generation**
+  Instantly generate schedule views. In the future, this includes exporting to PDF or automated email reports for students and faculty.
+
+## 5. Screenshots
+
+### 🔐 Login Page
+![Login Page](docs/login_page.png)
+
+### 🎓 Student Dashboard
+![Student Dashboard](docs/student_dashboard.png)
+
+### 📅 Weekly Timetable View
+![Weekly Timetable](docs/weekly_timetable.png)
+
+### 🛡️ Admin Dashboard
+![Admin Dashboard](docs/admin_dashboard.png)
+
+### 📤 CSV Upload
+![CSV Upload](docs/csv_upload.png)
+
+### 👨‍🏫 Faculty Management
+![Faculty Management](docs/faculty_management.png)
+
+### 📋 Faculty Schedule-Change Requests
+![Faculty Requests](docs/faculty_requests.png)
 
 ---
 
-## 🗄️ Database
+## 6. Tech Stack
 
-MySQL 8.0 runs in Docker with **persistent volume** (`mysql_data`).  
-Data survives container restarts. Only `docker-compose down -v` deletes it.
+* **Frontend**
+  - React.js
+  - React Router
+  - Axios
+  - Vanilla CSS (Modern aesthetic)
+* **Backend**
+  - Java 17
+  - Spring Boot & Spring Security (JWT)
+  - MySQL 8.0
+  - Docker & Docker Compose
 
-Fresh databases are seeded automatically from `backend/src/main/resources/seed/schedule_seed.csv`, which was generated from the uploaded Even Semester 2026 timetable workbook. The original workbook is kept at `data/TIME_TABLE_EVEN_SEM_2026_Mini_project.xlsx`.
+## 7. Folder Structure
 
-Connect with MySQL Workbench / DBeaver:
-- Host: `localhost:3306`
-- Database: `timetable_db`
-- User: `dptuser` / Password: `dptpass2026`
-- Root Password: `dptroot2026`
-
----
-
-## 🛠️ Local Development (without Docker)
-
-### Backend
-```bash
-cd backend
-# Set env vars or edit application.properties DB credentials
-mvn spring-boot:run
-# Runs on http://localhost:8080
-```
-
-### Frontend
-```bash
-cd frontend
-npm install
-npm start
-# Runs on http://localhost:3000 (proxies /api → localhost:8080)
-```
-
----
-
-## 📁 Project Structure
-
-```
+```text
 dpt-portal/
 ├── docker-compose.yml        ← Run everything with one command
 ├── backend/
 │   ├── Dockerfile
 │   └── src/main/java/com/timetable/
-│       ├── config/           ← Security, CORS, DataInitializer (seeds DB)
+│       ├── config/           ← Security, CORS, DataInitializer
 │       ├── controller/       ← REST endpoints
-│       ├── entity/           ← JPA entities (User, Schedule)
+│       ├── entity/           ← JPA entities
 │       ├── service/          ← Business logic
 │       └── security/         ← JWT filter
 ├── frontend/
 │   ├── Dockerfile
-│   ├── nginx.conf            ← Serves React + proxies /api to backend
+│   ├── nginx.conf            ← Serves React + proxies /api in Docker
 │   └── src/
-│       ├── pages/            ← StudentDashboard, FacultyDashboard, AdminDashboard, LoginPage
-│       ├── components/       ← Navbar, TimetableView, UploadZone
+│       ├── pages/            ← UI Views
+│       ├── components/       ← Reusable elements
 │       └── services/api.js   ← Axios API calls
-├── data/                     ← Uploaded source timetable workbook
-├── backend/src/main/resources/seed/schedule_seed.csv ← Startup DB seed
-└── sample_schedule.csv       ← Sample CSV for bulk upload
+├── data/                     ← Source timetable workbook
+└── sample_schedule.csv       ← Sample CSV for admin upload
 ```
 
----
+## 8. Future Improvements
+- AI-based automatic timetable generation to eliminate manual conflict checking.
+- Push notifications or SMS alerts for immediate timetable changes.
+- Integration with the university's main ERP for automatic synchronization of enrolled students and faculty leaves.
+- Comprehensive unit and integration test coverage.
 
-## 📋 CSV Upload Format (Admin)
+## 9. How to Run
 
-```csv
-program,day,timeSlot,subject,facultyId,facultyName,room
-BCA,Monday,9:00-10:00 AM,Machine Learning,CA-FAC004,Mr. Dipendra Gurung,A208
+### Quick Start (Docker — Recommended)
+Ensure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed.
+
+```bash
+# Start everything (MySQL + Backend + Frontend) in the background
+docker-compose up --build -d
 ```
+Access the application:
+- **Frontend:** `http://localhost`
+- **Backend:** `http://localhost:8080`
+- **Database:** `localhost:3307`
 
----
+**Default Login Credentials:**
+- **Admin:** `admin` / `admin123`
+- **Faculty:** `CA-FAC001` / `12345`
+- **Student:** `202300001` / `123`
 
-## 🌐 Ports
+### Local Development (VS Code without Docker)
+1. Keep the Database running: `docker-compose up -d mysql`
+2. **Backend**: `cd backend`, set env vars (`DB_URL`, `DB_USER`, `DB_PASS`), and run `mvn spring-boot:run`.
+3. **Frontend**: `cd frontend`, run `npm install` and `npm start`. App will open at `http://localhost:3000`.
 
-| Service  | Port |
-|----------|------|
-| Website  | 80   |
-| Backend  | 8080 |
-| MySQL    | 3306 |
+### Deployment (Render & Vercel)
+- **Database**: Deploy a `mysql:8.0` image on Render using a Persistent Disk.
+- **Backend**: Connect your GitHub to Render, set root to `backend`, and add environment variables.
+- **Frontend**: Connect your GitHub to Vercel, set root to `frontend`, and configure `REACT_APP_API_URL` to point to the deployed backend. Finally, add the Vercel URL to the backend's `CORS_ORIGINS` variable.
